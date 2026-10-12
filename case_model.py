@@ -1,6 +1,3 @@
-"""The Case class for the Cold Case File (Person C)."""
-
-
 class Case:
     """One cleaned case."""
 
