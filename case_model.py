@@ -1,4 +1,6 @@
-from dates import parse_date  # Person A's date parser.
+import re
+
+from dates_recent import parse_date  # Person A's date parser.
 from fields import (  # Person B's field cleaners.
     clean_age,
     clean_beat,
@@ -7,6 +9,17 @@ from fields import (  # Person B's field cleaners.
     clean_sex,
     clean_status,
 )
+
+# A phone number in the tip notes: 214-555-1234, 214.555.1234, or (214) 555-1234.
+PHONE_PATTERN = re.compile(r"\(?(\d{3})\)?[ .-]?(\d{3})[.-](\d{4})")
+
+
+def clean_phone(raw):
+    """Return the first phone number in raw as '214-555-1234', or ''."""
+    match = PHONE_PATTERN.search(raw)
+    if match:
+        return "-".join(match.groups())
+    return ""
 
 
 class Case:
@@ -51,7 +64,7 @@ class Case:
 
         # Derived fields.
         year = incident_date.year
-        callback_phone = ""  # TODO: use Person A's clean_phone(raw_tips) once it exists.
+        callback_phone = clean_phone(raw_tips)
 
         return cls(case_id, victim_name, sex, age, incident_date, year,
                    beat, status, callback_phone)
