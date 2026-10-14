@@ -19,12 +19,17 @@ DATE_FORMATS = (  # Pair each allowed text pattern with its matching parser form
 def parse_date(raw):  # Define the function that converts raw date text into a date.
     """Return a real date from one of the three formats used in the raw file."""  # Explain the function's result.
     value = raw.strip()  # Remove spaces around the date before checking its format.
+    if value.upper() in ("", "N/A", "UNKNOWN"):  # Blank, N/A or unknown means no date was recorded.
+        raise ValueError("missing date")  # Quarantine reason for a missing date.
 
     for pattern, date_format in DATE_FORMATS:  # Try each supported format in turn.
         if pattern.fullmatch(value):  # Continue only if the whole string matches this format.
             try:  # The shape may be valid even when the calendar date is impossible.
-                return datetime.strptime(value, date_format).date()  # Parse the text and keep only its date.
+                parsed = datetime.strptime(value, date_format).date()  # Parse the text and keep only its date.
             except ValueError:  # The matching shape contained an invalid calendar date.
                 break  # No other format can make this same-shaped invalid date valid.
+            if parsed > date(2026, 10, 7):  # Outside the try, so "future date" isn't caught as "invalid date".
+                raise ValueError("future date")  # Quarantine reason for a date after "today" (10/07/2026).
+            return parsed  # The date passed every check.
 
     raise ValueError("invalid date")  # Tell the caller this row's date cannot be used.
