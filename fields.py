@@ -16,16 +16,11 @@ def clean_case_id(raw):  # Start the clean_case_id function.
 
 
 # Define a function that cleans a victim name.
-def clean_name(raw):  # Start the clean_name function.
-    """Strip spaces, collapse double spaces, Title Case."""
-    # Split on spaces, rejoin with single spaces, and capitalize each word.
-    name = " ".join(raw.split()).title()  # Tidy the spacing and use Title Case.
-    # See whether the name ended up empty.
-    if name == "":  # Only continue here if there is no name.
-        # Stop with an error because the name is missing.
-        raise ValueError("missing name")  # Raise an error for a missing name.
-    # Give back the cleaned name.
-    return name  # Return the cleaned name.
+def clean_name(raw):
+    """Strip spaces, collapse double spaces, Title Case. Blank names stay blank."""
+    # Split on spaces, rejoin with single spaces, then capitalize each word.
+    # A blank name becomes "" here, and the row is kept.
+    return " ".join(raw.split()).title()
 
 
 # Define a function that cleans a case status.
