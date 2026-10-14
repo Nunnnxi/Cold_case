@@ -28,4 +28,3 @@ def parse_date(raw):  # Define the function that converts raw date text into a d
                 break  # No other format can make this same-shaped invalid date valid.
 
     raise ValueError("invalid date")  # Tell the caller this row's date cannot be used.
-
