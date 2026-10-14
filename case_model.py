@@ -18,7 +18,7 @@ about them (years_unsolved, is_stale) kept together in one place. If the
 updates.
 
 WHO DOES WHAT
-- Person A wrote parse_date (dates_recent.py)  -> cleans the date column
+- Person A wrote parse_date (dates.py)         -> cleans the date column
 - Person B wrote the field cleaners (fields.py) -> case_id, name, status, sex, age, beat
 - This file (Person C) calls all of them, in the order slide 4 requires,
   and builds the Case object. clean_cases.py then loops over every row.
@@ -33,10 +33,9 @@ WHO DOES WHAT
 import re
 
 # Import Person A's date parser. It returns a datetime.date, or raises
-# ValueError("missing date" / "invalid date" / "future date").
-# We use dates_recent, NOT the old dates.py, because only dates_recent
-# tells missing/future dates apart from invalid ones (slide 4 needs all three).
-from dates_recent import parse_date
+# ValueError("missing date" / "invalid date" / "future date") - the three
+# date reasons slide 4 requires.
+from dates import parse_date
 
 # Import Person B's six field cleaners. The parentheses just let one import
 # statement span several lines so it's easy to read.

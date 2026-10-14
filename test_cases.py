@@ -31,7 +31,7 @@ import pytest
 # The code under test, from each teammate's file.
 from case_model import Case, clean_phone
 from clean_cases import clearance_rate, load, raw_closed_rate
-from dates_recent import parse_date  # Person A's date parser.
+from dates import parse_date  # Person A's date parser.
 
 # The real header line from the raw file, used to build small fake CSV files.
 # Two strings side by side inside ( ) are joined into one string.
@@ -53,7 +53,7 @@ def make_row(case_id="CC-12345", date_text="2013-05-20", status="OPEN",
             "123 Main St", "beat 631", status, tips]
 
 
-# --- parse_date (dates_recent.py) -------------------------------------------
+# --- parse_date (dates.py) -------------------------------------------
 
 # HAPPY PATHS: one test for each of the 3 allowed date formats (slide 3).
 
